@@ -42,24 +42,28 @@ jobs:
         with:
           submodules: recursive
           fetch-depth: 0
+      - name: Setup Pages
+        id: pages
+        uses: actions/configure-pages@v3
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
           node-version: "20"
-          cache: ${{ steps.detect-package-manager.outputs.manager }}
-      - name: Setup Pages
-        id: pages
-        uses: actions/configure-pages@v3
+          cache: npm
+      - name: Restore cache
+        uses: actions/cache@v3
+        with:
+          path: ˜/.npm
+          key: npm-${{ hashFiles('package-lock.json') }}
+          restore-keys: npm-
       - name: Install TinaCMS dependencies
-        run: ${{ steps.detect-package-manager.outputs.runner }} ${{ steps.detect-package-manager.outputs.command }}
-      - name: Debug
-        run: ${{ steps.detect-package-manager.outputs.runner }} help
+        run: npm install
       - name: Build TinaCMS
         env:
           TINA_CLIENT_ID: ${{ secrets.TINA_CLIENT_ID }}
           TINA_TOKEN: ${{ secrets.TINA_TOKEN }}
           TINA_SEARCH_INDEXER_TOKEN: ${{ secrets.TINA_SEARCH_INDEXER_TOKEN }}
-        run: ${{ steps.detect-package-manager.outputs.runner }} tinacms build
+        run: npm tinacms build
       - name: Build with Hugo
         env:
           # For maximum backward compatibility with Hugo modules
