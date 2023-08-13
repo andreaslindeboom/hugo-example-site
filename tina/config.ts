@@ -13,6 +13,7 @@ export default defineConfig({
   build: {
     outputFolder: "admin",
     publicFolder: "static",
+    basePath: "hugo-example-site",
   },
   media: {
     tina: {
