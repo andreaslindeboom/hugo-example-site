@@ -2,13 +2,14 @@ import { defineConfig } from "tinacms";
 
 // Your hosting provider likely exposes this as an environment variable
 const branch = process.env.HEAD || process.env.VERCEL_GIT_COMMIT_REF || "main";
-const searchIndexerToken = process.env.TINA_SEARCH_INDEXER_TOKEN
+const tinaSearchIndexerToken = process.env.TINA_SEARCH_INDEXER_TOKEN
+const tinaClientId = process.env.TINA_CLIENT_ID
+const tinaToken = process.env.TINA_TOKEN
 
 export default defineConfig({
   branch,
-  // clientId: "b3225cd8-5dac-4758-af8d-f37d01483dba", // Get this from tina.io
-  // token: "8012cb3d5b0712a36770b69dcf90cd435e740162", // Get this from tina.io
-
+  clientId: tinaClientId,
+  token: tinaToken,
   build: {
     outputFolder: "admin",
     publicFolder: "static",
@@ -45,7 +46,7 @@ export default defineConfig({
   },
   search: {
     tina: {
-      indexerToken: searchIndexerToken,
+      indexerToken: tinaSearchIndexerToken,
     },
   },
 });
